@@ -4,10 +4,7 @@ import java.util.*;
 public class EmployeePayrollService {
     private List<EmployeePayrollData> employeePayrollList;
     public EmployeePayrollService() {}
-    public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList)
-    {
-
-    }
+    public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) { }
     public static void main(String[] args)
     {
         ArrayList<EmployeePayrollData> employeePayrollList = new ArrayList<>();
