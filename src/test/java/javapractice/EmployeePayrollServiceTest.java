@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static javapractice.EmployeePayrollService.IOService.DB_IO;
 import static javapractice.EmployeePayrollService.IOService.FILE_IO;
@@ -58,5 +59,13 @@ public class EmployeePayrollServiceTest {
         LocalDate endDate = LocalDate.now();
         List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollForDateRange(DB_IO, startDate, endDate);
         Assertions.assertEquals(3, employeePayrollData.size());
+    }
+    @Test
+    public void givenPayrollDataWhenAverageSalaryRetrieveByGenderShouldReturnProperValue() throws SQLException {
+        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+        employeePayrollService.readEmployeeData(DB_IO);
+        Map<String, Double> averageSalaryByGender = employeePayrollService.readAverageSalaryByGender(DB_IO);
+        Assertions.assertTrue(averageSalaryByGender.get("M").equals(2000000.00) &&
+                                        averageSalaryByGender.get("F").equals(3000000.00) );
     }
 }
