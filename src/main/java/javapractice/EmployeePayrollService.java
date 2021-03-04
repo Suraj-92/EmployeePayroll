@@ -5,6 +5,7 @@ import java.util.*;
 
 public class EmployeePayrollService {
 
+
     public enum IOService {CONSOLE_IO, FILE_IO, DB_IO}
     private List<EmployeePayrollData> employeePayrollList;
     private EmployeePayrollDBService employeePayrollDBService;
@@ -80,6 +81,9 @@ public class EmployeePayrollService {
                         .filter(employeePayrollDataItem -> employeePayrollDataItem.name.equals(name) )
                         .findFirst()
                         .orElse(null);
+    }
+    public void addEmployeeToPayroll(String name, double salary, LocalDate startDate, String gender) {
+        employeePayrollList.add(employeePayrollDBService.addEmployeeToPayroll(name, salary, startDate, gender));
     }
 
     public void printData(IOService ioService) {
