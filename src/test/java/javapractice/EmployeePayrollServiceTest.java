@@ -26,12 +26,12 @@ public class EmployeePayrollServiceTest {
         Assertions.assertEquals(3, entries);
     }
 
-    @Test
-    public void givenFileOnReadingFromFileShouldMatchEmployeeCount(){
-        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-        long entries = employeePayrollService.readEmployeePayrollData(FILE_IO);
-        Assertions.assertEquals(3, entries);
-    }
+//    @Test
+//    public void givenFileOnReadingFromFileShouldMatchEmployeeCount(){
+//        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+//        long entries = employeePayrollService.readEmployeePayrollData(FILE_IO);
+//        Assertions.assertEquals(3, entries);
+//    }
 
     @Test
     public void givenEmployeePayrollInDBWhenRetrievedShouldMatchEmployeeCount() throws SQLException {

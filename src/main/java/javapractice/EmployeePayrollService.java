@@ -4,7 +4,7 @@ import java.util.*;
 
 public class EmployeePayrollService {
 
-    public enum IOService {CONSOLE_IO, FILE_IO, DB_IO,REST_IO}
+    public enum IOService {CONSOLE_IO, FILE_IO, DB_IO}
     private List<EmployeePayrollData> employeePayrollList;
     private EmployeePayrollDBService employeePayrollDBService;
 

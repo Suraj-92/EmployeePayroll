@@ -87,8 +87,6 @@ public class EmployeePayrollDBService {
             e.printStackTrace();
         }
     }
-
-
     public int updateEmployeeData(String name, double salary) {
         return this.updateEmployeeDataUsingPreparedStatement(name, salary);
     }
