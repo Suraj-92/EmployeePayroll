@@ -1,5 +1,6 @@
 package javapractice;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class EmployeePayrollService {
@@ -49,6 +50,12 @@ public class EmployeePayrollService {
         if (ioService.equals(IOService.DB_IO))
             this.employeePayrollList = employeePayrollDBService.readData();
         return this.employeePayrollList;
+    }
+
+    public List<EmployeePayrollData> readEmployeePayrollForDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) {
+        if (ioService.equals(IOService.DB_IO))
+            return employeePayrollDBService.getEmployeePayrollForDateRange(startDate, endDate);
+        return null;
     }
 
     public boolean checkEmployeePayrollSyncWithDB(String name) {

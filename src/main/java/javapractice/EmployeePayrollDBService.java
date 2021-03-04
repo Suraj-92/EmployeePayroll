@@ -27,24 +27,52 @@ public class EmployeePayrollDBService {
 
     public List<EmployeePayrollData> readData() {
         String sql = "select *from employee_payroll";
+        return this.getEmployeePayrollDataUsingDB(sql);
+//        List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
+//        try (Connection connection = this.getConnection()){
+//            Statement statement = connection.createStatement();
+//            ResultSet resultSet = statement.executeQuery(sql);
+//            employeePayrollList = this.getEmployeePayrollData(resultSet);
+////            while (resultSet.next())
+////            {
+////                int id = resultSet.getInt("id");
+////                String name = resultSet.getString("name");
+////                double salary = resultSet.getDouble("salary");
+////                LocalDate startDate = resultSet.getDate("start").toLocalDate();
+////                employeePayrollList.add(new EmployeePayrollData(id, name, salary, startDate));
+////            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return employeePayrollList;
+    }
+
+    public List<EmployeePayrollData> getEmployeePayrollForDateRange(LocalDate startDate, LocalDate endDate) {
+        String sql = String.format("select *from employee_payroll where START BETWEEN '%s' AND '%s';", Date.valueOf(startDate), Date.valueOf(endDate));
+//        List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
+//        try (Connection connection = this.getConnection()){
+//            Statement statement = connection.createStatement();
+//            ResultSet resultSet = statement.executeQuery(sql);
+//            employeePayrollList = this.getEmployeePayrollData(resultSet);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return employeePayrollList;
+        return this.getEmployeePayrollDataUsingDB(sql);
+    }
+
+    private List<EmployeePayrollData> getEmployeePayrollDataUsingDB(String sql) {
         List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
         try (Connection connection = this.getConnection()){
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             employeePayrollList = this.getEmployeePayrollData(resultSet);
-//            while (resultSet.next())
-//            {
-//                int id = resultSet.getInt("id");
-//                String name = resultSet.getString("name");
-//                double salary = resultSet.getDouble("salary");
-//                LocalDate startDate = resultSet.getDate("start").toLocalDate();
-//                employeePayrollList.add(new EmployeePayrollData(id, name, salary, startDate));
-//            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return employeePayrollList;
     }
+
     public List<EmployeePayrollData> getEmployeePayrollData(String name) {
         List<EmployeePayrollData> employeePayrollList = null;
         if (this.employeePayrollDataStatement == null)
