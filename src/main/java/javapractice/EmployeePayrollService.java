@@ -1,7 +1,10 @@
 package javapractice;
+import java.sql.SQLException;
 import java.util.*;
 
 public class EmployeePayrollService {
+
+
 
     public enum IOService {CONSOLE_IO, FILE_IO, DB_IO,REST_IO}
     private List<EmployeePayrollData> employeePayrollList;
@@ -39,7 +42,11 @@ public class EmployeePayrollService {
             this.employeePayrollList = new employeePayrollFileIOService().readData();
         return employeePayrollList.size();
     }
-
+    public List<EmployeePayrollData> readEmployeeData(IOService ioService) throws SQLException {
+        if (ioService.equals(IOService.DB_IO))
+            this.employeePayrollList = new EmployeePayrollDBService().readData();
+        return this.employeePayrollList;
+    }
     public void printData(IOService ioService) {
         if (ioService.equals(IOService.FILE_IO))
             new employeePayrollFileIOService().printData();

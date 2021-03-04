@@ -3,8 +3,11 @@ package javapractice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 
+import static javapractice.EmployeePayrollService.IOService.DB_IO;
 import static javapractice.EmployeePayrollService.IOService.FILE_IO;
 
 public class EmployeePayrollServiceTest {
@@ -28,5 +31,12 @@ public class EmployeePayrollServiceTest {
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
         long entries = employeePayrollService.readEmployeePayrollData(FILE_IO);
         Assertions.assertEquals(3, entries);
+    }
+
+    @Test
+    public void givenEmployeePayrollInDBWhenRetrievedShouldMatchEmployeeCount() throws SQLException {
+        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+        List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeeData(DB_IO);
+        Assertions.assertEquals(3, employeePayrollData.size());
     }
 }
