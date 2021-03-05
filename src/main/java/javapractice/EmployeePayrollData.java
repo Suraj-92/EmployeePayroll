@@ -1,6 +1,7 @@
 package javapractice;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class EmployeePayrollData {
     public String gender;
@@ -25,6 +26,12 @@ public class EmployeePayrollData {
         this(id, name, salary, startDate);
         this.gender = gender;
     }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(name, gender, salary, startDate);
+    }
+
 
     @Override
     public String toString() {
