@@ -3,6 +3,7 @@ package javapractice;
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -121,6 +122,15 @@ public class EmployeePayrollServiceTest {
         EmployeePayrollData[] arrayOfEmps = new Gson().fromJson(response.asString(), EmployeePayrollData[].class);
         return arrayOfEmps;
     }
+
+    private Response addEmployeeToJsonServer(EmployeePayrollData employeePayrollData) {
+        String empJson = new Gson().toJson(employeePayrollData);
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type","application/json");
+        request.body(empJson);
+        return  request.post("/employee_payroll");
+    }
+
     @Test
     public void givenEmployeeDataInJsonServerWhenRetrievedShouldMatchTheCount(){
         EmployeePayrollData[] arrayOfEmps = getEmployeeList();
@@ -129,4 +139,22 @@ public class EmployeePayrollServiceTest {
         long entries = employeePayrollService.countEntries(REST_IO);
         Assertions.assertEquals(2,entries);
     }
+    @Test
+    public void givenNewEmployee_whenAddedShouldMatch201ResponseAndCount(){
+        EmployeePayrollService employeePayrollService;
+        EmployeePayrollData[] arrayOfEmps = getEmployeeList();
+        employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmps));
+        EmployeePayrollData employeePayrollData = null;
+        employeePayrollData = new EmployeePayrollData(0,"Mark HusenBerg","M",300000.0, LocalDate.now());
+        Response response = addEmployeeToJsonServer(employeePayrollData);
+        int statusCode = response.getStatusCode();
+        Assertions.assertEquals(201,statusCode);
+
+        employeePayrollData = new Gson().fromJson(response.asString(),EmployeePayrollData.class);
+        employeePayrollService.addEmployeeToPayroll(employeePayrollData, REST_IO);
+        long entries = employeePayrollService.countEntries(REST_IO);
+        Assertions.assertEquals(3, entries);
+    }
+
+
 }
