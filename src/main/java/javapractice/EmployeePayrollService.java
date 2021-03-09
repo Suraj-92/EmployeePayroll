@@ -5,7 +5,7 @@ import java.util.*;
 
 public class EmployeePayrollService {
 
-    public enum IOService {CONSOLE_IO, FILE_IO, DB_IO}
+    public enum IOService {CONSOLE_IO, FILE_IO, DB_IO, REST_IO}
     private List<EmployeePayrollData> employeePayrollList;
     private EmployeePayrollDBService employeePayrollDBService;
 
@@ -14,7 +14,7 @@ public class EmployeePayrollService {
     }
     public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
         this();
-        this.employeePayrollList = employeePayrollList;
+        this.employeePayrollList = new ArrayList<>(employeePayrollList);
     }
     public static void main(String[] args)
     {
