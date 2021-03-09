@@ -54,7 +54,7 @@ public class EmployeePayrollServiceTest {
     public void givenNewSalaryForEmployeeWhenUpdatedShouldSyncWithDB() throws SQLException {
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
         List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeeData(DB_IO);
-        employeePayrollService.updateEmployeeSalary("Terisa", 3000000.00);
+        employeePayrollService.updateEmployeeSalary("Terisa", 3000000.00, DB_IO);
         boolean result = employeePayrollService.checkEmployeePayrollSyncWithDB("Terisa");
         Assertions.assertTrue(result);
     }
@@ -177,5 +177,21 @@ public void givenListOfNewEmployeeWhenAddedShouldMatch201ResponseAndCount(){
         long entries = employeePayrollService.countEntries(REST_IO);
         Assertions.assertEquals(6,entries);
 }
+    @Test
+    public void givenNewSalaryForEmployeeWhenUpdatedShouldMatch200Response(){
+        EmployeePayrollService employeePayrollService;
+        EmployeePayrollData[] arrayOfEmps = getEmployeeList();
+        employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmps));
 
+        employeePayrollService.updateEmployeeSalary("Anil",3000000.0, REST_IO);
+        EmployeePayrollData employeePayrollData = employeePayrollService.getEmployeePayrollData("Anil");
+
+        String empJson = new Gson().toJson(employeePayrollData);
+        RequestSpecification request = RestAssured.given();
+        request.header("Content-Type", "application/json");
+        request.body(empJson);
+        Response response = request.put("/employee_payroll/"+employeePayrollData.id);
+        int statusCode = response.getStatusCode();
+        Assertions.assertEquals(200, statusCode);
+    }
 }
